@@ -11,6 +11,10 @@ body {
     line-height: 1.6;
 }
 
+input {
+    padding-left: 20px;
+}
+
 .gallery {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
