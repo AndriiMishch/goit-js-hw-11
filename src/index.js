@@ -7,7 +7,10 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const pixabayAPI = new PixabayAPI();
-const lightbox = new SimpleLightbox('.card a');
+const lightbox = new SimpleLightbox('.card a', {
+  captionData: "alt",
+  captionDelay: 250,
+});
 
 const searchFormEl = document.querySelector('.search-form');
 const galleryEl = document.querySelector('.gallery');
@@ -34,13 +37,16 @@ async function fetchAndRenderPhotos() {
       Notiflix.Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
       );
+      clearGallery();
       return;
     }
 
     imagesData = data.hits;
 
     galleryEl.innerHTML = createGalleryCards(imagesData);
-    loadMoreBtnEl.classList.remove('is-hidden');
+    if (imagesData.length < data.totalHits) {
+      loadMoreBtnEl.classList.remove('is-hidden');
+    }
     lightbox.refresh();
     Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
   } catch (err) {
